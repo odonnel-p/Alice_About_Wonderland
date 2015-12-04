@@ -1,0 +1,113 @@
+html,body,h1,h2,h3,h4,h5,p,div,a,ul,li,section,svg{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+/*------------Global-------------*/
+html,body{
+	height: 100%;
+	position: relative;
+	background: rgb(242,244,233);
+}
+
+.container{
+    height:100%;
+}
+.container .section{
+	width:100%;
+}
+.container .canvas{
+	width:100%;
+	background:white;
+	height:800px;
+    position:relative;
+}
+.container .controls{
+	margin-bottom:20px;
+}
+
+/*-----------tooltip-----------*/
+.canvas .custom-tooltip{
+    position:absolute;
+    border:1px solid red;
+    width:150px;
+    min-height:10px;
+    padding:0px 10px;
+}
+
+/*------------font-------------*/
+body{
+    font-family:'MaisonNeue', sans-serif;
+    font-size:16px;
+    background:rgb(250,250,250);
+}
+h1,h2,h3,h4{
+    margin:0 0 10px;
+    font-weight:bold;
+}
+p{ font-size:1em; margin:0 0 10px; }
+.serif h1, .serif h2, .serif p{
+    font-family:'Publico', serif;
+}
+.extra{ 
+    font-size:3.5em;
+    text-transform: uppercase;
+}
+
+@font-face{
+    font-family:MaisonNeue;
+    font-weight:bold;
+    src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Bold.otf");
+}
+@font-face{
+    font-family:MaisonNeue;
+    font-weight:normal;
+    src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Demi.otf");
+}
+@font-face{
+    font-family:Publico;
+    font-weight:normal;
+    src:url("./assets/fonts/publico/PublicoText-Roman-Web.woff");
+}
+@font-face{
+    font-family:Publico;
+    font-weight:bold;
+    src:url("./assets/fonts/publico/PublicoText-Bold-Web.woff");
+}
+
+/*---------colors--------------*/
+.meta{
+    color:rgb(180,180,180);
+}
+.color-chip#background{ background-color:rgb(250,250,250);}
+.color-chip#text{ background-color:rgb(50,50,50);}
+.color-chip#red{ background-color:#fd6b5a;}
+.color-chip#green{ background-color:#06ce98;}
+.color-chip#blue{ background-color:#2175bc;}
+
+
+/*------------svg--------------*/
+.axis .domain{
+    fill:none
+}
+.axis .tick line{
+    fill:none;
+    stroke:rgb(200,200,200);
+    stroke-width:1px;
+}
+.axis .tick text{
+    fill:rgb(80,80,80);
+    font-size:12px;
+}
+
+.data-point{
+    fill:white;
+    stroke-width:2px;
+    stroke:rgb(150,150,150);
+}
+.data-line{
+    fill:none;
+    stroke-width:2px;
+    stroke:rgb(150,150,150);
+}

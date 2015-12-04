@@ -1,0 +1,81 @@
+html,body,h1,h2,h3,h4,h5,p,div,a,ul,li,section{
+	margin:0;
+	padding:0;
+	list-style:none;
+}
+
+
+/* Basic layout */
+/* Ignore this */
+section{
+	margin:20px 0;
+	padding:20px 0;
+	clear:both;
+	border-bottom:1px solid rgb(200,200,200);
+}
+header{
+	margin:20px 0;
+}
+.examples{
+	display:flex;
+	min-height:100px;
+	align-items:center;
+}
+	.examples .color-chip{
+		width:50px;
+		height:30px;
+		border:1px solid white;
+	}
+
+/* fonts */
+body{
+	font-family:'MaisonNeue', sans-serif;
+	font-size:16px;
+	background:rgb(250,250,250);
+}
+h1,h2,h3,h4{
+	margin:0 0 10px;
+	font-weight:bold;
+}
+p{ font-size:1em; margin:0 0 10px; }
+.serif h1, .serif h2, .serif p{
+	font-family:'Publico', serif;
+}
+.extra{ 
+	font-size:3.5em;
+	text-transform: uppercase;
+}
+
+
+/* colors */
+.meta{
+	color:rgb(180,180,180);
+}
+.color-chip#background{ background-color:rgb(250,250,250);}
+.color-chip#text{ background-color:rgb(50,50,50);}
+.color-chip#red{ background-color:#fd6b5a;}
+.color-chip#green{ background-color:#06ce98;}
+.color-chip#blue{ background-color:#2175bc;}
+
+
+@font-face{
+	font-family:MaisonNeue;
+	font-weight:bold;
+	src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Bold.otf");
+}
+@font-face{
+	font-family:MaisonNeue;
+	font-weight:normal;
+	src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Demi.otf");
+}
+@font-face{
+	font-family:Publico;
+	font-weight:normal;
+	src:url("./assets/fonts/publico/PublicoText-Roman-Web.woff");
+}
+@font-face{
+	font-family:Publico;
+	font-weight:bold;
+	src:url("./assets/fonts/publico/PublicoText-Bold-Web.woff");
+}
+

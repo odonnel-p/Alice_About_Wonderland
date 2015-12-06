@@ -7,22 +7,47 @@
         <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
 		<link href="style.css" rel="stylesheet"/>
 	</head>
-	<body>
+	<body class="bodycolor">
 		<div class="container">
-            <h1>Literary Structure Analysis</h1>
+            <h1 id="titletext">Literary Structure Analysis</h1>
+            <div class="controls btn-group">
+                <a href="#" class="btn btn-default" id="Wonderland">Alice in Wonderland</a>
+                <a href="#" class="btn btn-default" id="Looking_Glass">Through the Looking Glass</a>
+            </div>
+
+            <!--http://www.w3schools.com/html/html_form_input_types.asp -->
+            <form id="search_by"class='form'>
+				Word Frequency:
+				<input type="text" name="word_freq">
+				<input type="submit">
+			</form>
+			
+
             <div class="canvas" id="plot">
                 <div class="custom-tooltip">
-                    <h2 id="tooltip-title">Tooltip Title</h2>
-                    <p>X: <span id="x-tt"></span></p>
-                    <p>Amount: <span id="amt-tt"></span></p>
+                    <p>Chapter: <span id="chap-tt"></span></p>
+                    <p>Paragraph: <span id="para-tt"></span></p>
+                    <p>Sentence: <span id="sent-tt"></span></p>
+                    <p>words <span id="words-tt"></span></p>
                 </div>
             </div>
-        </div><!--.container-->
 
+            <div class="canvas" id="plot2">
+                <div class="custom-tooltip">
+                    <p>Chapter: <span id="chap-tt2"></span></p>
+                    <p>Paragraph: <span id="para-tt2"></span></p>
+                    <p>Sentence: <span id="sent-tt2"></span></p>
+                    <p>words <span id="words-tt2"></span></p>
+                </div>
+            </div>
+
+
+        </div><!--.container-->
 
 		<!-- Scripts -->
 		<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
         <script src="script/lib/queue/queue.min.js"></script>
+		<script src="script/lib/jquery/jquery-1.11.1.min.js"></script>
 		<script src="script/script.js"></script>
 	</body>
 </html>

@@ -6,23 +6,44 @@ html,body,h1,h2,h3,h4,h5,p,div,a,ul,li,section,svg{
 
 /*------------Global-------------*/
 html,body{
-	height: 100%;
+	
 	position: relative;
-	background: rgb(242,244,233);
+	background: black;
 }
 
-.container{
-    height:100%;
+#titletext{
+    margin-top: 20px;
 }
-.container .section{
-	width:100%;
+
+.bodycolor{
+   background:rgb(210,242,225);
+}
+
+.container {
+	width: 70vw;
+    height: 100vh;
 }
 .container .canvas{
-	width:100%;
-	background:white;
-	height:800px;
-    position:relative;
+    position: relative;
+    float:left;
+    height:75vh;
+    margin: 10px 0 10px 0;
 }
+
+#plot {
+    width: 18%;
+    min-width: 80px;
+    background:white;
+    margin-right: 2vh;
+
+}
+
+#plot2 {
+    width: 80%;
+    min-width:600px;
+    background:white;
+}
+
 .container .controls{
 	margin-bottom:20px;
 }
@@ -31,22 +52,22 @@ html,body{
 .canvas .custom-tooltip{
     position:absolute;
     border:1px solid red;
-    width:150px;
+    width:115px;
     min-height:10px;
-    padding:0px 10px;
+    padding:5px 7px;
 }
 
 /*------------font-------------*/
 body{
     font-family:'MaisonNeue', sans-serif;
-    font-size:16px;
+    font-size:15px;
     background:rgb(250,250,250);
 }
 h1,h2,h3,h4{
     margin:0 0 10px;
     font-weight:bold;
 }
-p{ font-size:1em; margin:0 0 10px; }
+p{ font-size:.65em; margin:0 0 10px; }
 .serif h1, .serif h2, .serif p{
     font-family:'Publico', serif;
 }
@@ -111,3 +132,4 @@ p{ font-size:1em; margin:0 0 10px; }
     stroke-width:2px;
     stroke:rgb(150,150,150);
 }
+

@@ -2,29 +2,29 @@ console.log("Literary Structure Analysis");
 
 
 
-$('#search_by').submit(function(e){
-e.preventDefault();
-search_val = $( "input:first" ).val();
 
-    searchBy(search_val)
-    //console.log(e, );
-})
 
-function searchBy(search_val){
-    console.log(search_val);
-}
 
-var margin = {t:50,r:50,b:50,l:50};
+//-----MARGINS AND PLOT VARIABLES-----//
+var margin = {t:20,r:20,b:20,l:20};
 var width = document.getElementById('plot').clientWidth - margin.r - margin.l,
     height = document.getElementById('plot').clientHeight - margin.t - margin.b;
 
-var plot1 = d3.select('#plot')
+var plot = d3.select('#plot')
     .append('svg')
     .attr('width',width+margin.r+margin.l)
     .attr('height',height + margin.t + margin.b)
     .append('g')
-    .attr('class','plotty1')
+    .attr('class','plottyA')
     .attr('transform','translate('+margin.l+','+margin.t+')');
+
+// var plot1 = d3.select('#plot')
+//     .append('svg')
+//     .attr('width',width+margin.r+margin.l)
+//     .attr('height',height + margin.t + margin.b)
+//     .append('g')
+//     .attr('class','plotty1')
+//     .attr('transform','translate('+margin.l+','+margin.t+')');
 
 var plot2 = d3.select('#plot2')
     .append('svg')
@@ -34,78 +34,175 @@ var plot2 = d3.select('#plot2')
     .attr('class','plotty2')
     .attr('transform','translate('+margin.l+','+margin.t+')');
 
+
+
+//-----SCALE VARIABLES-----//
 var scaleX = d3.scale.linear().range([0,height]);
 
 
-//Start importing data
+
+//----QUEUE-----//
 queue()
     .defer(d3.text,'data/alice_wonderland_carroll.txt')
     .defer(d3.text,'data/looking_glass_carroll.txt')
     .await(dataLoaded)
     
 
-function draw(wonderland, lookingGlass) {
-
-
-}
-
-
-
 
 function dataLoaded(error, wonderland, lookingGlass){
 
-    //choose book by button -- will program later
-    var book_select = wonderland;
-    //choose search word by submission -- will program later
-    var search_word = "Alice"
 
-    //console.log(wonderland);
-    //console.log(lookingGlass);
+   
+    //-----button functionality-----//
+    //switch between two datasets or books when button is clicked
+    //var book = wonderland;
+    var book;
 
-    //make an array of all words, in chronological order (no punctuation && single white spaces only)
-    var No_Punct = book_select.replace(/[^\w\s]|_/gi, "")
+    $('button').on('click', function(){
+                            $('button').removeClass('selected');
+                            $(this).addClass('selected');
+                        })
+
+    d3.selectAll('.btn').on('click', function(){
+
+                
+
+                var type = d3.select(this).attr('id');
+                
+                if(type=='Wonderland'){
+                        //console.log("wonderland");
+                        //return wonderland;
+                        book = wonderland;
+                        // $('button').on('click', function(){
+                        //     $('button').removeClass('selected');
+                        //     $(this).addClass('selected');
+                        // })
+                        
+                }else{
+                        //console.log('looking glass');
+                        //return lookingGlass;
+                        book = lookingGlass;
+                        // $('button').on('click', function(){
+                        //     $('button').removeClass('selected');
+                        //     $(this).addClass('selected');
+                        // })
+
+                }
+    });
+
+    
+
+    //-----end button functionality----//
+
+
+
+
+    //------FREQ CHART-----//
+
+    //jQuery button
+    $('#search_by').submit(function(e){
+        e.preventDefault();
+        search_val = $( "input:first" ).val();
+
+        searchBy(book, search_val)
+        //console.log(e, search_val);
+    })
+
+    //jQuery button function with draw
+    function searchBy(chosen_book, chosen_value){
+        //console.log(search_val);
+        //console.log(wonderland);
+
+        // 1. Set up array of just words
+        var No_Punct = chosen_book.replace(/[^\w\s]|_/gi, "")
                                     .replace(/\s+/gi, " ");
-    var Just_Words = No_Punct.split(' ');
-    console.log(Just_Words); //array consists of 26000+ words
+        var Just_Words = No_Punct.split(' ');
+        //console.log(Just_Words); //array consists of 26000+ words
 
+    
+        // 2. Set domain as length of array of words
+        scaleX.domain([0, Just_Words.length]);
 
-    //set up for-loop to determine if search word and word in array matches
-    for( i = 0; i < Just_Words.length; i++) {
+    
 
-        //conditional statement that draws line when match occurs
-        if(search_word == Just_Words[i]) {
+        // 3. plot start line, stop line, and ticker tape
+        plot.append('line')
+        .attr('class', 'start-end')
+        .attr('x1', (-6))
+        .attr('y1', scaleX(0))
+        .attr('x2', width+6)
+        .attr('y2', scaleX(0))
 
-            //draw line
+        plot.append('line')
+        .attr('class', 'start-end')
+        .attr('x1', (-6))
+        .attr('y1', scaleX(Just_Words.length))
+        .attr('x2', width+6)
+        .attr('y2', scaleX(Just_Words.length))
 
-        }
+        plot.append('rect')
+        .attr('class', 'shadow')
+        .attr('x', 0)
+        .attr('y', 0)
+        .attr('width', width)
+        .attr('height', height)   
+
+        var indexic = 0;
+        
+        // 4. Draw chapter lines
+        Just_Words.forEach(function(t){
+            //console.log(t);
+
+            if (t == 'CHAPTER') {
+            //console.log("MATCH @ " + indexic + " index")
+
+                plot.append('line')
+                .attr('class', 'chapter-line')
+                .attr('x1', -10)
+                .attr('y1', scaleX(indexic))
+                .attr('x2', -5)
+                .attr('y2', scaleX(indexic))
+                
+            }
+
+            indexic++;
+        
+        })
+    
+        indexic = 0;
+
+        // 5. forEach drawing barcode if it matches query  
+        Just_Words.forEach(function(t){
+            //console.log(t);
+
+            if (t == chosen_value) {
+            //console.log("MATCH @ " + indexic + " index")
+
+                plot.append('line')
+                .attr('class', 'data-line')
+                .attr('x1', 0)
+                .attr('y1', scaleX(indexic))
+                .attr('x2', width)
+                .attr('y2', scaleX(indexic))
+                
+            }
+
+            indexic++;
+        
+        })
     }
 
 
 
+
+    
+    //-----DATA ORGANIZATION for NODE-TREE MAP -----//
+
     //-----SET UP OBJECT TO HOLD DATA
-    var this_book = {name: "Alice in Wonderland",
-                    content: book_select
-                    }
-
-    //-----BREAKDOWN INTO CHARACTERS, then build back up
-    //-----could not make this work
-    //console.log(book1.name);
-
-    //console.log(this_book.content);
-    var formatted = this_book.content.replace(/\*+/g,"").replace(/\s{2,}/g, "\n")
-    //console.log(formatted); //this returns no asterisk or extra space
-
-    var individual = formatted.split('');
-    //console.log(individual); // this returns every character in array form
-
-
-    book1 = {};
-    book1.name = this_book.name;
-    book1.content = individual;
-    book1.content.name = "chapters"
-    book1.content.content = individual.join('')
-    //console.log(book1);
-
+    // var this_book = {key: "Alice in Wonderland",
+    //                 content: wonderland
+    //                 }
+    // console.log(this_book);
 
 
     //----NESTED ARRAY
@@ -117,50 +214,106 @@ function dataLoaded(error, wonderland, lookingGlass){
     
     //removed asterisk picures, then remove formatting so all paragraphs have one line break
     var formatted = wonderland.replace(/\*+/g,"")
-                                .replace(/\s{2,}/g, "\n")
+                            //.replace(/\s{2,}/g, "\n")
     //console.log(formatted);
 
+    
+
     // SET UP OBJECT TO HOLD
+
     book_A = {};
     //book_A.name = "Alice in Wonderland";
-    book_A.type = "Book"
+    book_A.book = "Alice in Wonderland"
     //book_A.author = "Lewis Carroll"
     book_A.text = formatted; //this is a string of the whole book
-    book_A.content = {};
+    book_A.chapters = {};
     //book_A.value = formatted.length;
 
+    //console.log(book_A);
 
 
     //-----MAKING CHAPTER LEVEL OF OBJECT
     //split by "chapter ??? until next period"
-    var chapters = formatted.split(/chapter.+\./gi)
-                    chapters.shift();
-    //console.log(chapters);
+    var chapters = formatted.split(/chapter.+\.\s/gi);
+    //console.log(chapters)
+    chapters.shift();
+    
+    // var chapters_n = chapters[0].replace(/[\f\n\r\t\v​\u00A0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​\u2028\u2029​\u202f\u205f​\u3000]{3,}/gm, "NNN\n");
+    // var chapters_nows = chapters_n.replace(/\s{2,}/gm, "");
+    // var chapters_nows2 = chapters_nows.replace(/N{4,}\n/, "NNN\n");
+    // var chapter1_split = chapters_nows2.split("NNN\n");
+    // var paragraphs = chapter1_split.pop();
+    
+    var paragraphs = []; // all paragraphs in one array
+    var paragraphs_o = {};
+    for (i=0; i < chapters.length; i++) {
+        //console.log(chapters[i]);
+        var chapters_n = chapters[i].replace(/[\f\n\r\t\v​\u00A0\u1680​\u180e\u2000​\u2001\u2002​\u2003\u2004​\u2005\u2006​\u2007\u2008​\u2009\u200a​\u2028\u2029​\u2028\u2029​\u202f\u205f​\u3000]{3,}/gm, "NNN\n");
+        //console.log(chapters_n);
+        var chapters_nows = chapters_n.replace(/\s{2,}/gm, "");
+        //console.log(chapters_nows);
+        var chapters_nows2 = chapters_nows.replace(/N{4,}\n/, "NNN\n");
+        //console.log(chapters_nows2);
+        var chapter1_split = chapters_nows2.split("NNN\n");
+        //console.log(chapter1_split);
+        var popped_p = chapter1_split.pop();
+        //console.log(chapter1_split);
+        paragraphs = paragraphs.concat(chapter1_split);
 
-    function split_by_chapter(c) {
-        c.split(/chapter.+\./gi);
-    };
+        paragraphs_o.key = "Chapter "+(i+1)
 
-    //formatted.forEach(split_by_chapter);
 
-    //console.log(formatted);
+    }
+    console.log(paragraphs);
+    console.log(paragraphs_o);
 
-    book_A.content.type = "Chapter";
-    book_A.content.text = chapters;
-    book_A.content.content = {};
+    //console.log(chapters_n);
+    // console.log(chapters_nows);
+    // console.log(chapters_nows2);
+    // console.log(chapter1_split);
+    //console.log(paragraphs);
+
+    
+
+    //assign each chapter-text from array to object array
+    //book_A.content.key = "Chapter";
+    //book_A.book.text = chapters;
+    //book_A.book.chapter = [];
+    
+    book_A.chapters.book = "Alice in Wonderland";
+
+    for (i = 0; i < chapters.length; i++) { 
+        
+        book_A.chapters[i] = {book:"Alice in Wonderland", chapter:"Chapter "+(i+1), content: chapters[i]}
+        
+    }   
 
     //console.log(book_A);
 
-    //returns chapter 2
-    //console.log(book_A.content.text[1]);
+    //returns chapter 1
+    //console.log(book_A.chapters[0].content);
 
 
 
     //-----MAKING PARAGRAPH LEVEL OF OBJECT
 
-    //split each item of array
-    var paragraphs = chapters.forEach( function (p){ p.split(/\n/g) })
+    var paragraphs = chapters[0].replace(/.\n./gi,'. .')
     //console.log(paragraphs);
+    
+    //console.log(chapters);
+    var sentences = [];
+    
+    for( i = 0; i < chapters.length; i++) {
+        var split_sent = chapters[i].split(/[.!?]|[.']|[?']|[!']/g);
+        //console.log(split_sent);
+        //paragraphs.push(split_para);
+    } 
+    //     chapters.forEach( function (p){ 
+    //     //console.log(p)
+    //     var splitted = p.split(/\↵+/g)
+
+    //     })
+    // console.log(paragraphs);
 
     //split whole text into one "return" for each paragraph
     //var paragraph_fix = wonderland.replace(/\↵+/gi, '↵');
@@ -198,22 +351,13 @@ function dataLoaded(error, wonderland, lookingGlass){
 
 
     //--- Nested Data attempt 2 ------------------------//
-
-
-
-
-    //button functionality
-    //switch between two datasets or books when button is clicked
-    d3.selectAll('.btn').on('click',function(){
-           var type = d3.select(this).attr('id');
-            if(type=='Wonderland'){
-                draw(wonderland);
-            }else{
-                draw(lookingGlass);
-            }
-        });
-
 }
+
+
+
+    
+
+
 
 function draw(book){ }
     //console.log(book);

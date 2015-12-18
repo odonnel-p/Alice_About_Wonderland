@@ -61,7 +61,7 @@ function dataLoaded(error, wonderland, fullwonderland){
     $('button').on('click', function(){
                             $('button').removeClass('selected');
                             $(this).addClass('selected');
-                        })
+    })
 
     d3.selectAll('.btn').on('click', function(){
 
@@ -154,8 +154,13 @@ function dataLoaded(error, wonderland, fullwonderland){
         e.preventDefault();
         search_val = $( "input:first" ).val();
 
+        if(book==null) {
+            alert("Please select a chapter button.");
+        }
+        
         searchBy(book, search_val)
         //console.log(e, search_val);
+
     })
 
     //jQuery button function with draw
@@ -226,12 +231,12 @@ function dataLoaded(error, wonderland, fullwonderland){
                                 .replace(/\s(?=\S)/gm, ' ')
                                 .replace(/\s{3,}/gm, "\n")
                                 .replace(/-/gm, ' ');
-        console.log(book_edit); //formatted with single spaces between words, only end punctuation, \n between paragraphs
+        //console.log(book_edit); //formatted with single spaces between words, only end punctuation, \n between paragraphs
 
         var spaceswords = book_edit.split(/\b/gmi);
                                     //.splice(0,0,"CHAPTER");
         spaceswords.unshift('CHAPTER', ' ');
-        console.log(spaceswords); //unshift gives you array new length
+        //console.log(spaceswords); //unshift gives you array new length
 
         //for-loop array placeholders
         concat_array = [];
@@ -241,55 +246,59 @@ function dataLoaded(error, wonderland, fullwonderland){
         var word_count = 1, 
             sent_count = 1, 
             para_count = 1 
+
+        //find out which button is pressed
+        var get_btn = document.getElementsByClassName('selected')[0].innerHTML;
+            //console.log(get_btn);
             
 
         //12-17 more tests to see why if/else ifs aren't running
         //for-loop: make object with word, sentence, and paragrpah counters
         for (i = 0; i<spaceswords.length; i++) {
 
-           console.log("for loop");
+           //console.log(spaceswords[i]);
+           //console.log(spaceswords[i].match(/\w/im));
 
-            if (spaceswords[i].indexOf(/\w/) != (-1) ) {
-                
-                console.log("if loop")
+            if (spaceswords[i].match(/\w/im) != null ) {
+
                 //make new object to hold each character & its order attributes
                 data_object = { string_word: spaceswords[i],
                                 word: "Word " + word_count,
                                 sentence: "Sentence " + sent_count,
                                 paragraph: "Paragraph " + para_count,
-                                chapter: "Chapter " + type.cut(0,6),
+                                chapter: get_btn,
                                 booktitle: "Alice in Wonderland",
                                 book_author: "Lewis Carroll"
                 }
 
                     //add data_object to data array
                     data_array = data_array.concat(data_object);
-                    console.log(data_array);
+                    
 
                 //increase word count
                 word_count++;
 
-            } else if (spaceswords[i].indexOf(/[.!?]/) != (-1) ) {
+            };
+
+            if (spaceswords[i].match(/[.!?]/) != null ) {
 
                 //increase sentence count
                 sent_count++,
                 word_count = 1;
 
-            } else if (spaceswords[i].indexOf(/[\f\n\r\t\v]/gm) != (-1) ) {
+            };
+
+            if (spaceswords[i].match(/[\f\n\r\t\v]/gmi) != null ) {
 
                 //increase paragraph
                 para_count++,
                 word_count = 1,
                 sent_count =1;
 
-            } else {
-
-                console.log('Somethings wrong');
-
-            }
+            };
 
 
-        }
+        } console.log(data_array);
 
 
     }

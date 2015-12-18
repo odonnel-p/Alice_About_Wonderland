@@ -1,6 +1,5 @@
 CHAPTER I. Down the Rabbit-Hole
-
-
+ 
 Alice was beginning to get very tired of sitting by her sister on the bank, and of having nothing to do: once or twice she had peeped into the book her sister was reading, but it had no pictures or conversations in it, 'and what is the use of a book,' thought Alice 'without pictures or conversations?'
 
 So she was considering in her own mind (as well as she could, for the
@@ -392,7 +391,6 @@ way, and the whole party swam to the shore.
 
 
 
-
 CHAPTER III. A Caucus-Race and a Long Tale
 
 They were indeed a queer-looking party that assembled on the bank--the
@@ -577,7 +575,6 @@ something like this:--
           to
            death."'
 
-
 'You are not attending!' said the Mouse to Alice severely. 'What are you
 thinking of?'
 
@@ -633,7 +630,6 @@ lonely and low-spirited. In a little while, however, she again heard
 a little pattering of footsteps in the distance, and she looked up
 eagerly, half hoping that the Mouse had changed his mind, and was coming
 back to finish his story.
-
 
 
 
@@ -897,7 +893,6 @@ hookah, and taking not the smallest notice of her or of anything else.
 
 
 
-
 CHAPTER V. Advice from a Caterpillar
 
 The Caterpillar and Alice looked at each other for some time in silence:
@@ -1018,7 +1013,6 @@ Alice folded her hands, and began:--
    Do you think I can listen all day to such stuff?
     Be off, or I'll kick you down stairs!'
 
-
 'That is not said right,' said the Caterpillar.
 
 'Not QUITE right, I'm afraid,' said Alice, timidly; 'some of the words
@@ -1082,13 +1076,6 @@ set to work at once to eat some of the other bit. Her chin was pressed
 so closely against her foot, that there was hardly room to open her
 mouth; but she did it at last, and managed to swallow a morsel of the
 lefthand bit.
-
-
-  *    *    *    *    *    *    *
-
-    *    *    *    *    *    *
-
-  *    *    *    *    *    *    *
 
 'Come, my head's free at last!' said Alice in a tone of delight, which
 changed into alarm in another moment, when she found that her shoulders
@@ -1190,7 +1177,6 @@ there,' thought Alice, 'it'll never do to come upon them THIS size: why,
 I should frighten them out of their wits!' So she began nibbling at the
 righthand bit again, and did not venture to go near the house till she
 had brought herself down to nine inches high.
-
 
 
 
@@ -1507,7 +1493,6 @@ nibbled some more of the lefthand bit of mushroom, and raised herself to
 about two feet high: even then she walked up towards it rather timidly,
 saying to herself 'Suppose it should be raving mad after all! I almost
 wish I'd gone to see the Hatter instead!'
-
 
 
 
@@ -1849,7 +1834,6 @@ fountains.
 
 
 
-
 CHAPTER VIII. The Queen's Croquet-Ground
 
 A large rose-tree stood near the entrance of the garden: the roses
@@ -2149,7 +2133,6 @@ And the executioner went off like an arrow.
 by the time he had come back with the Duchess, it had entirely
 disappeared; so the King and the executioner ran wildly up and down
 looking for it, while the rest of the party went back to the game.
-
 
 
 
@@ -2469,7 +2452,6 @@ tone: 'tell her something about the games now.'
 
 
 
-
 CHAPTER X. The Lobster Quadrille
 
 The Mock Turtle sighed deeply, and drew the back of one flapper across
@@ -2768,7 +2750,6 @@ came, carried on the breeze that followed them, the melancholy words:--
 
 
 
-
 CHAPTER XI. Who Stole the Tarts?
 
 The King and Queen of Hearts were seated on their throne when they
@@ -3026,9 +3007,7 @@ name 'Alice!'
 
 
 
-
 CHAPTER XII. Alice's Evidence
-
 
 'Here!' cried Alice, quite forgetting in the flurry of the moment how
 large she had grown in the last few minutes, and she jumped up in such

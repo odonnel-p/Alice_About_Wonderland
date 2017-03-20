@@ -2,193 +2,80 @@ html,body,h1,h2,h3,h4,h5,p,div,a,ul,li,section,svg{
 	margin:0;
 	padding:0;
 	list-style:none;
+
 }
 
 /*------------Global-------------*/
 html,body{
 	
 	position: relative;
-	background: black;
-}
 
-#titletext{
-    margin-top: 20px;
-}
-
-.bodycolor{
-    width:100%;
-    height:100%;
-    background:rgb(210,242,225);
 }
 
 .container {
-	width: 1150px;
-    height: 1150px;
-}
+    position: absolute;
+    width: 1200px;
+    height: 624px;
+    padding: 24px;
+    overflow: hidden;
 
-.canvas{
-    
-    position: relative;
-    float:left;
-    height:925px;
+   
     
 }
 
-#canvasess {
-    width:1086px;
-    height:950px;
-}
-
-#search_by {
-    height: 25px;
-    
-    margin-bottom: 5px;
-}
-
-
-#wft {
-    position:relative;
+.intro {
     float: left;
-    width:150px;
+    width: 300px;
 }
 
-#sott {
-    position:relative;
-    float: left;
-    margin-left: 12px;
-}
-
-.inputz {
-    position:relative;
-    float: left;
-    margin-left: 15px;
-    }
-
-#plot {
-    width: 150px;
-    float:left;
-    background:white;
-    margin-right: 10px;
-    margin-top: 5px;
+.info {
     
-
+    float: left;
+    margin: 0 24px 0 24px;
 }
 
-#plot2 {
-    width: 925px;
-    float: right;
-    background:white;
-    margin-top: 5px;
-}
-
-.container .controls{
-	margin-bottom:20px;
-}
-
-/*-----------tooltip-----------*/
-.canvas .custom-tooltip {
+.canvas {
     position:absolute;
-    border:1px solid red;
-    width:115px;
-    min-height:10px;
-    padding:5px 7px;
-    background-color: rgba(255,255,255,.85)
+    background: white;
+    height: 615px;
+    width: 845px;
     
 }
+
+.plot {
+    /*background: blue;*/
+}
+
+form {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+label {
+    padding: 0 0 0 12px;
+}
+
 
 /*------------font-------------*/
 body{
-    font-family:'MaisonNeue', sans-serif;
-    font-size:15px;
-    background:rgb(250,250,250);
-}
-h1,h2,h3,h4{
-    margin:0 0 10px;
-    font-weight:bold;
-}
-p{ font-size:.65em; margin:0 0 10px; }
-.serif h1, .serif h2, .serif p{
-    font-family:'Publico', serif;
-}
-.extra{ 
-    font-size:3.5em;
-    text-transform: uppercase;
+    /*font-family: 'Libre Baskerville', serif;*/
+    font-family: 'Rubik', sans-serif;
+    line-height: 24px;
+    background: rgb(250,250,225);
 }
 
-@font-face{
-    font-family:MaisonNeue;
-    font-weight:bold;
-    src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Bold.otf");
-}
-@font-face{
-    font-family:MaisonNeue;
-    font-weight:normal;
-    src:url("./assets/fonts/maisonneue/MaisonNeueTRIAL-Demi.otf");
-}
-@font-face{
-    font-family:Publico;
-    font-weight:normal;
-    src:url("./assets/fonts/publico/PublicoText-Roman-Web.woff");
-}
-@font-face{
-    font-family:Publico;
-    font-weight:bold;
-    src:url("./assets/fonts/publico/PublicoText-Bold-Web.woff");
+
+h1 {
+    font-size: 22px;
+    font-weight: 700;
+    text-align: right;
 }
 
-/*---------colors--------------*/
-.meta{
-    color:rgb(180,180,180);
-}
-.color-chip#background{ background-color:rgb(250,250,250);}
-.color-chip#text{ background-color:rgb(50,50,50);}
-.color-chip#red{ background-color:#fd6b5a;}
-.color-chip#green{ background-color:#06ce98;}
-.color-chip#blue{ background-color:#2175bc;}
-
-
-/*------------svg--------------*/
-.axis .domain{
-    fill:none
-}
-.axis .tick line{
-    fill:none;
-    stroke:rgb(200,200,200);
-    stroke-width:1px;
-}
-.axis .tick text{
-    fill:rgb(80,80,80);
-    font-size:12px;
-}
-
-.data-point{
-    fill:white;
-    stroke-width:2px;
-    stroke:rgb(150,150,150);
-}
-.data-line{
-    fill:none;
-    stroke-width:2px;
-    stroke:black;
-    opacity: .25
-}
-
-.chapter-line {
-    fill:none;
-    stroke-width:1px;
-    stroke:blue;
-}
-
-.shadow{
-    fill: white;
-    
-}
-
-.start-end {
-    stroke-width:9px;
-    stroke:red; 
-}
-
-button.selected{
-  background-color:#e6e7e7;
+h2 {
+    font-size: 12px;
+    font-weight: 400;
+    text-align: right;
 }

@@ -2,59 +2,30 @@
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>d3 FINAL</title>
-		<link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,400italic' rel='stylesheet' type='text/css'>
-        <link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"/>
+		<title>Alice About Wonderland</title>
+		<link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:400,400i|Rubik:400,400i,700" rel="stylesheet">
 		<link href="style.css" rel="stylesheet"/>
 	</head>
 	<body class="bodycolor">
 		<div class="container">
-            <h1 id="titletext">Alice in Wonderland: Literary Structure Analysis</h1>
-            <div class="controls btn-group">
-                <button type="button" class="btn btn-default" id="Wonderland1">Chapter 1</button>
-                <button type="button" class="btn btn-default" id="Wonderland2">Chapter 2</button>
-                <button type="button" class="btn btn-default" id="Wonderland3">Chapter 3</button>
-                <button type="button" class="btn btn-default" id="Wonderland4">Chapter 4</button>
-                <button type="button" class="btn btn-default" id="Wonderland5">Chapter 5</button>
-                <button type="button" class="btn btn-default" id="Wonderland6">Chapter 6</button>
-                <button type="button" class="btn btn-default" id="Wonderland7">Chapter 7</button>
-                <button type="button" class="btn btn-default" id="Wonderland8">Chapter 8</button>
-                <button type="button" class="btn btn-default" id="Wonderland9">Chapter 9</button>
-                <button type="button" class="btn btn-default" id="Wonderland10">Chapter 10</button>
-                <button type="button" class="btn btn-default" id="Wonderland11">Chapter 11</button>
-                <button type="button" class="btn btn-default" id="Wonderland12">Chapter 12</button>
-            </div>
 
-            <!--http://www.w3schools.com/html/html_form_input_types.asp -->
-            <form id="search_by"class='form'>
-				<div class="titles" id="wft">Word Frequency</div>
-                <div class="titles" id="sott">Structure of Text </div>
-				    <input class='inputz' type="text" name="word_freq">
-				    <input class='inputz' type="submit">
-			</form>
-			
-            <div class="canvases" id="canvasess">
-                <div class="canvas" id="plot">
-                    <div class="custom-tooltip" id="tt1">
-                        <p>Chapter: <span id="chap-tt"></span></p>
-                        <p>Paragraph: <span id="para-tt"></span></p>
-                        <p>Sentence: <span id="sent-tt"></span></p>
-                        <p>words <span id="words-tt"></span></p>
-                    </div>
+            <div class="intro">
+                <h1>Alice About Wonderland</h1>
+                <h2>a search for words about literary structure</h2>
+                <br>
+                <h2>Patrick J. O'Donnel</h2>
+                <h2>Dec 2015</h2>
+
+            </div> <!--.intro-->
+
+            <div class="info">
+                <div class="canvas" id="canvas">
+                	<form>
+					  <label><input type="radio" name="mode" value="word">Each Word</label>
+					  <label><input type="radio" name="mode" value="glyph" checked>Word Length</label>
+					</form>
                 </div>
-
-
-                <div class="canvas" id="plot2">
-                    <div class="custom-tooltip" id="tt2">
-                        <p>Chapter: <span id="chap-tt2"></span></p>
-                        <p>Paragraph: <span id="para-tt2"></span></p>
-                        <p>Sentence: <span id="sent-tt2"></span></p>
-                        <p>words <span id="words-tt2"></span></p>
-                    </div>
-                </div>
-            </div>
-
-
+            </div> <!--.info-->
         </div><!--.container-->
 
 		<!-- Scripts -->

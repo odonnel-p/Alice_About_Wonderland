@@ -84,13 +84,14 @@ function dataLoaded(error, raw){
 
     var whole_book = {  name: "whole_book",
                         title: "Alice's Adventures in Wonderland",
-                        value: 1,
                         children_are: "Chapters",
                         children: split_into_chapters(raw) };
 
     console.log(whole_book);
 
     node = whole_book;
+
+    //console.log(JSON.stringify(whole_book));
 
     plot_graph(whole_book);
 
@@ -99,23 +100,36 @@ function dataLoaded(error, raw){
 function plot_graph(wb) {
 
 
-    var path = svg.datum(wb).selectAll("path")
-                  .data(partition.nodes)
-                .enter().append("path")
+    var g = svg.selectAll("g")
+        //.datum(wb).selectAll("path")
+                  .data(partition.nodes(node))
+                .enter().append("g")
+
+    var path = g.append("path")
+                  .attr("class", "paths")
                   //.attr("display", function(d) { return d.depth ? null : "none"; }) // hide inner ring
                   .attr("d", arc)
-                  .style("stroke", "#fff")
+                  .attr("opacity", .45)
+                  //.style("stroke", "#fff")
                   .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
                   .on("click", click)
                   .each(stash)
-                // .append("title")
-                //     .text( function(d) { if (d.depth == 1 )
-                //                             { return d.name + "\n" + d.title+ "\n" + formatNumber(d.value); } 
-                //                          else if (d.depth == 0)
-                //                             { return d.title + "\n" + formatNumber(d.value); }
-                //                          else 
-                //                             { return d.name + "\n" + formatNumber(d.value); } 
-                //     });
+
+    
+    var text = g.append('text')
+                .attr('class', 'labels1 labels')
+                .attr("transform", function(d) { return "rotate(" + computeTextRotation(d) + ")"; })
+                .attr("x", function(d) { return y(d.y); })
+                .attr("dx", "4") // margin
+                .attr("dy", ".35em") // vertical-align
+                .text(function(d) { if (d.depth == 0 )
+                                            { return d.title; }
+                                        else if (d.depth == 1)
+                                            { return "Ch " + d.no + ": " + d.title; }
+                                        // else if (d.depth == 2) { return "paragraph " + d.no; } 
+                });
+
+    
 
     d3.selectAll("input").on("change", function change() {
         var value = this.value === "glyph"
@@ -134,10 +148,33 @@ function plot_graph(wb) {
 
     function click(d) {
         node = d;
+
+        text.transition().attr("opacity", 0);
+
         path.transition()
           .duration(1000)
-          .attrTween("d", arcTweenZoom(d));
-    }
+          .attrTween("d", arcTweenZoom(d))
+          .each("end", function(e, i) {
+          // check if the animated element's data e lies within the visible angle span given in d
+              if (e.x >= d.x && e.x < (d.x + d.dx)) {
+                // get a selection of the associated text element
+                var arcText = d3.select(this.parentNode).select("text");
+                // fade in the text element and recalculate positions
+                arcText.transition().duration(750)
+                  .attr("opacity", .45)
+                  .attr("transform", function() { return "rotate(" + computeTextRotation(e) + ")" })
+                  .attr("x", function(d) { return y(d.y); });
+              }
+          });
+    };
+
+    var alice = d3.selectAll(".paths")
+                    .filter(function(d) { //console.log(d);
+                        if (d.depth >= 3 && /alice/i.test(d.sentence) ) { return d }
+                    })
+                    .attr('class', 'alice red')
+                    .attr("opacity", 1)
+                    .style('fill', "rgb(255,0,0)");
 
 } //--end of plot graph
 
@@ -150,6 +187,9 @@ d3.select(self.frameElement).style("height", height + "px");
 //
 
 
+function computeTextRotation(d) {
+  return (x(d.x + d.dx / 2) - Math.PI / 2) / Math.PI * 180;
+}
 
 // Stash the old values for transition.
 function stash(d) {
@@ -216,7 +256,7 @@ function arcTweenZoom(d) {
             return chapter_array.push( {name: "Chapter "+chapter_count, 
                                         title: extract_chapter_title(d), 
                                         children_are: "Paragraphs", 
-                                        value: chapter_count, 
+                                        no: chapter_count, 
                                         children: split_into_paragraphs(d) }) 
         });
         
@@ -257,8 +297,9 @@ function arcTweenZoom(d) {
         paragraph_array.forEach( function(f) {
             paragraph_count++;
             return  paragraph_array_of_objects.push( {  name: "Paragraph "+paragraph_count,
+                                                        title: "Paragraph "+paragraph_count,
                                                         children_are: "Sentences",
-                                                        value: paragraph_count,
+                                                        no: paragraph_count,
                                                         children: split_into_sentences(f) })
          })
 
@@ -283,8 +324,11 @@ function arcTweenZoom(d) {
                 sentence_count++;
                 return sentence_array_of_objects.push({ name: "Sentence "+sentence_count,
                                                         children_are: "Words",
-                                                        value: sentence_count,
-                                                        children: split_into_words(g) })
+                                                        no: sentence_count,
+                                                        sentence: g,
+                                                        size: g.split(' ').length,
+                                                        alice: g.indexOf("Alice") })
+                                                        //children: split_into_words(g) 
             })
 
             return sentence_array_of_objects;
@@ -303,7 +347,8 @@ function arcTweenZoom(d) {
 
                 words.forEach( function(h) { 
                         word_array_of_objects.push( {   name: "Word "+word_count,
-                                                        value: word_count,
+                                                        no: word_count,
+                                                        alice: h.indexOf("Alice"),
                                                         word: h,
                                                         size: h.length })
                         

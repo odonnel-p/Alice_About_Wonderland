@@ -26,7 +26,7 @@ var width = document.getElementById('canvas').clientWidth - margin.r - margin.l,
     height = document.getElementById('canvas').clientHeight - margin.t - margin.b;
 
 var radius = Math.min(width, height) / 2,
-    color = d3.scale.category20b();
+    color = d3.scale.category20c();
 
 var x = d3.scale.linear()
     .range([0, 2 * Math.PI]);
@@ -44,16 +44,21 @@ var svg = d3.select('#canvas')
 
 var partition = d3.layout.partition()
     .sort(null)
-    .size([2 * Math.PI, radius * radius])
+    // .size([2 * Math.PI, radius * radius])
     .value(function(d) { return 1; });
 
 var arc = d3.svg.arc()
-    .startAngle(function(d) { return d.x; })
-    .endAngle(function(d) { return d.x + d.dx; })
-    .innerRadius(function(d) { return Math.sqrt(d.y); })
-    .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+    // .startAngle(function(d) { return d.x; })
+    // .endAngle(function(d) { return d.x + d.dx; })
+    // .innerRadius(function(d) { return Math.sqrt(d.y); })
+    // .outerRadius(function(d) { return Math.sqrt(d.y + d.dy); });
+    .startAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x))); })
+    .endAngle(function(d) { return Math.max(0, Math.min(2 * Math.PI, x(d.x + d.dx))); })
+    .innerRadius(function(d) { return Math.max(0, y(d.y)); })
+    .outerRadius(function(d) { return Math.max(0, y(d.y + d.dy)); });
 
 var formatNumber = d3.format(",d");
+var node;
 
 
 //
@@ -85,6 +90,8 @@ function dataLoaded(error, raw){
 
     console.log(whole_book);
 
+    node = whole_book;
+
     plot_graph(whole_book);
 
 } // --end of dataloaded
@@ -99,16 +106,16 @@ function plot_graph(wb) {
                   .attr("d", arc)
                   .style("stroke", "#fff")
                   .style("fill", function(d) { return color((d.children ? d : d.parent).name); })
+                  .on("click", click)
                   .each(stash)
-                  //.on("click", click)
-                .append("title")
-                    .text( function(d) { if (d.depth == 1 )
-                                            { return d.name + "\n" + d.title+ "\n" + formatNumber(d.value); } 
-                                         else if (d.depth == 0)
-                                            { return d.title + "\n" + formatNumber(d.value); }
-                                         else 
-                                            { return d.name + "\n" + formatNumber(d.value); } 
-                    });
+                // .append("title")
+                //     .text( function(d) { if (d.depth == 1 )
+                //                             { return d.name + "\n" + d.title+ "\n" + formatNumber(d.value); } 
+                //                          else if (d.depth == 0)
+                //                             { return d.title + "\n" + formatNumber(d.value); }
+                //                          else 
+                //                             { return d.name + "\n" + formatNumber(d.value); } 
+                //     });
 
     d3.selectAll("input").on("change", function change() {
         var value = this.value === "glyph"
@@ -121,13 +128,20 @@ function plot_graph(wb) {
             .data(partition.value(value).nodes)
           .transition()
             .duration(1500)
-            .attrTween("d", arcTween);
+            .attrTween("d", arcTweenData);
 
     });
 
+    function click(d) {
+        node = d;
+        path.transition()
+          .duration(1000)
+          .attrTween("d", arcTweenZoom(d));
+    }
+
 } //--end of plot graph
 
-
+d3.select(self.frameElement).style("height", height + "px");
 
 //
 //
@@ -144,35 +158,39 @@ function stash(d) {
 }
 
 // Interpolate the arcs in data space.
-function arcTween(a) {
-  var i = d3.interpolate({x: a.x0, dx: a.dx0}, a);
-  return function(t) {
-    var b = i(t);
+// When switching data: interpolate the arcs in data space.
+function arcTweenData(a, i) {
+  var oi = d3.interpolate({x: a.x0, dx: a.dx0}, a);
+  function tween(t) {
+    var b = oi(t);
     a.x0 = b.x;
     a.dx0 = b.dx;
     return arc(b);
+  }
+  if (i == 0) {
+   // If we are on the first arc, adjust the x domain to match the root node
+   // at the current zoom level. (We only need to do this once.)
+    var xd = d3.interpolate(x.domain(), [node.x, node.x + node.dx]);
+    return function(t) {
+      x.domain(xd(t));
+      return tween(t);
+    };
+  } else {
+    return tween;
+  }
+}
+
+// When zooming: interpolate the scales.
+function arcTweenZoom(d) {
+  var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
+      yd = d3.interpolate(y.domain(), [d.y, 1]),
+      yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
+  return function(d, i) {
+    return i
+        ? function(t) { return arc(d); }
+        : function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); return arc(d); };
   };
 }
-
-function click(d) {
-
-console.log('clicked');
-  svg.transition()
-      .duration(750)
-      .tween("scale", function() {
-        var xd = d3.interpolate(x.domain(), [d.x, d.x + d.dx]),
-            yd = d3.interpolate(y.domain(), [d.y, 1]),
-            yr = d3.interpolate(y.range(), [d.y ? 20 : 0, radius]);
-        return function(t) { x.domain(xd(t)); y.domain(yd(t)).range(yr(t)); };
-      })
-    .selectAll("path")
-      .attrTween("d", function(d) { return function() { return arc(d); }; });
-
-      dataLoaded()
-}
-
-
-d3.select(self.frameElement).style("height", height + "px");
 
 
 
